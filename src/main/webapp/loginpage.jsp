@@ -50,13 +50,13 @@
   </div>
 </div> --%>
 <div class="container">
-
-      <form class="form-signin"  action="<%=path %>/user/login" method="post">
+	  <div id="login-error">${error}</div>
+      <form class="form-signin"  action="../j_spring_security_check" method="post">
         <h2 class="form-signin-heading">Please sign in</h2>
         <label for="inputUsername" class="sr-only">Username</label>
-        <input id="inputUsername" class="form-control" placeholder="Username" required="" autofocus="" type="username" name="username">
+        <input id="inputUsername" class="form-control" placeholder="Username" required="" autofocus="" type="username" name="j_username">
         <label for="inputPassword" class="sr-only">Password</label>
-        <input id="inputPassword" class="form-control" placeholder="Password" required="" type="password" name="password">
+        <input id="inputPassword" class="form-control" placeholder="Password" required="" type="password" name="j_password">
         <div class="checkbox">
           <label>
             <input value="remember-me" type="checkbox"> Remember me

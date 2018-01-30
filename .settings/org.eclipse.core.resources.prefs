@@ -1,6 +1,5 @@
 eclipse.preferences.version=1
 encoding//src/main/java/com/ivy/dto/Result.java=UTF-8
-encoding//src/main/java/com/ivy/entity/Appointment.java=UTF-8
 encoding//src/main/java/com/ivy/entity/Book.java=UTF-8
 encoding//src/main/java/com/ivy/enums/AppointStateEnum.java=UTF-8
 encoding//src/main/java/com/ivy/exception/AppointException.java=UTF-8
