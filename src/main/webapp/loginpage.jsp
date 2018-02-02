@@ -16,10 +16,10 @@
 
 </head>
 <body>
-<%-- <div class="panel panel-default">
+ <div class="panel panel-default">
   <div class="panel-heading">LOGIN</div>
   <div class="panel-body">
-   <form class="form-horizontal" action="<%=path %>/user/login" method="post">
+   <form class="form-horizontal" action="/springMVC/user/login" method="post">
 		  <div class="form-group">
 		    <label for="username" class="col-sm-2 control-label">Username</label>
 		    <div class="col-sm-6">
@@ -48,7 +48,7 @@
 		  </div>
 		</form>
   </div>
-</div> --%>
+</div>
 <div class="container">
 	  <div id="login-error">${error}</div>
       <form class="form-signin"  action="../j_spring_security_check" method="post">

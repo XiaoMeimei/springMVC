@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+     
+<mapper namespace="com.ivy.dao.FileDao" >
+ 
+    <!-- 分页查找所有和搜索文字匹配的文件  -->
+    <select id="getAllFilesWithPage" parameterType="pageBean" resultType="File" >
+       SELECT * FROM file WHERE canshare=1 AND filename LIKE '%${searchcontent}%' LIMIT #{startindex},#{pagesize}   
+    </select>
+    
+     <!-- 和搜索内容匹配的所有的共享的文件总数 -->
+    <select id="count" parameterType="pageBean" resultType="java.lang.Integer">
+       SELECT COUNT(id) totalrecord FROM file WHERE canshare=1 AND filename LIKE '%${searchcontent}%'      
+    </select> 
+ </mapper>

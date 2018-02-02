@@ -10,6 +10,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class MainController {
 	protected static Logger logger = Logger.getLogger("controller");
 
+	@RequestMapping(value = "/home", method = RequestMethod.GET)
+	public String getHomePage() {
+		logger.debug("Received request to show home page");
+		return "userhome";
+	}
+	
 	@RequestMapping(value = "/common", method = RequestMethod.GET)
 	public String getCommonPage() {
 		logger.debug("Received request to show common page");
