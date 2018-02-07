@@ -1,7 +1,11 @@
 eclipse.preferences.version=1
-encoding//src/main/java/com/ivy/dto/Result.java=UTF-8
-encoding//src/main/java/com/ivy/entity/Book.java=UTF-8
+encoding//src/main/java/com/ivy/entity/PageBean.java=UTF-8
 encoding//src/main/java/com/ivy/enums/AppointStateEnum.java=UTF-8
 encoding//src/main/java/com/ivy/exception/AppointException.java=UTF-8
 encoding//src/main/java/com/ivy/exception/NoNumberException.java=UTF-8
 encoding//src/main/java/com/ivy/exception/RepeatAppointException.java=UTF-8
+encoding//src/main/java/com/ivy/service/impl/UserServiceImpl.java=UTF-8
+encoding//src/main/java/com/ivy/util/PropertiesUtil.java=UTF-8
+encoding//src/main/java/com/ivy/web/SearchFileController.java=UTF-8
+encoding//src/main/java/com/ivy/web/UserController.java=UTF-8
+encoding//src/main/webapp/registerpage.jsp=UTF-8

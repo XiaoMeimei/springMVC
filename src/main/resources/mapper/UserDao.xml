@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+     
+<mapper namespace="com.ivy.dao.UserDao" >
+ 
+    <!-- 通过username得到User  -->
+    <select id="getUserByUsername" parameterType="java.lang.String" resultType="User" >
+       SELECT * FROM user WHERE username = #{username}
+    </select>
+    
+     <!-- 注册一个新用户 -->
+    <insert id="createUser" parameterType="User">
+    	INSERT INTO user(username,password,isvip,enabled) VALUES (#{username},#{password},#{isvip},#{enabled});
+    	INSERT INTO authorities(username,authority) VALUES (#{username},'ROLE_USER');
+    </insert> 
+ </mapper>

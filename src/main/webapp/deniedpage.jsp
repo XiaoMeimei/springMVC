@@ -9,6 +9,6 @@
 <body>
 	<h1>你的权限不够!</h1>
 	<p>只有拥有Admin权限才能访问!</p>
-	<a href="/springMVC/auth/login">退出登录</a>
+	<a href="/springMVC/user/login">退出登录</a>
 </body>
 </html>

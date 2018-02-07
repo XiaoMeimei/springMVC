@@ -7,7 +7,7 @@
 <%String path= request.getContextPath();%>
 <link href="<%=path %>/css/bootstrap.min.css" rel="stylesheet" />
 <link href="<%=path %>/js/bootstrap.min.js" rel="stylesheet" />
-<script src="<%=path %>/jquery/jquery-1.10.2.js"></script>
+<script src="<%=path %>/jquery/jquery/jquery-3.3.1.min.js"></script>
 
 <title>iCloud搜索结果</title>
 </head>

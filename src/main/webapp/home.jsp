@@ -8,9 +8,7 @@
 </head>
 <body>
 <div>
-	<a href="/springMVC/main/admin"> Go AdminPage </a>
-	<br />
-	<a href="/springMVC/auth/login">log in</a>
+	<a href="/springMVC/user/login">log in</a>
 </div>
 <center>
 

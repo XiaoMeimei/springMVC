@@ -16,39 +16,10 @@
 
 </head>
 <body>
- <div class="panel panel-default">
-  <div class="panel-heading">LOGIN</div>
-  <div class="panel-body">
-   <form class="form-horizontal" action="/springMVC/user/login" method="post">
-		  <div class="form-group">
-		    <label for="username" class="col-sm-2 control-label">Username</label>
-		    <div class="col-sm-6">
-		      <input class="form-control" id="username" placeholder="username" name="username">
-		    </div>
-		  </div>
-		  <div class="form-group">
-		    <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
-		    <div class="col-sm-6">
-		      <input type="password" class="form-control" id="inputPassword3" placeholder="Password" name="password">
-		    </div>
-		  </div>
-		  <div class="form-group">
-		    <div class="col-sm-offset-2 col-sm-10">
-		      <div class="checkbox">
-		        <label>
-		          <input type="checkbox"> Remember me
-		        </label>
-		      </div>
-		    </div>
-		  </div>
-		  <div class="form-group">
-		    <div class="col-sm-offset-2 col-sm-10">
-		      <button type="submit" class="btn btn-default">Sign in</button>
-		    </div>
-		  </div>
-		</form>
-  </div>
-</div>
+	<a href="/springMVC/registerpage.jsp" style="margin-left:10px">REGISTER</a>
+	<a href="/springMVC/user/login" style="margin-left:20px">LOGIN OUT</a>
+	
+	
 <div class="container">
 	  <div id="login-error">${error}</div>
       <form class="form-signin"  action="../j_spring_security_check" method="post">

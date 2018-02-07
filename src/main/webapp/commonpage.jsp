@@ -11,7 +11,7 @@
 	<p>每个人都能访问的页面.</p>
 	<a href="/springMVC/main/admin"> Go AdminPage </a>
 	<br />
-	<a href="/springMVC/auth/login">退出登录</a>
+	<a href="/springMVC/user/login">退出登录</a>
 
 </body>
 </html>

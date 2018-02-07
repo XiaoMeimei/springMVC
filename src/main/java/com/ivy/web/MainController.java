@@ -13,7 +13,7 @@ public class MainController {
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public String getHomePage() {
 		logger.debug("Received request to show home page");
-		return "userhome";
+		return "home";
 	}
 	
 	@RequestMapping(value = "/common", method = RequestMethod.GET)
