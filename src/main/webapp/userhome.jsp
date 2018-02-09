@@ -13,18 +13,34 @@
 </head>
 <body style="width: 95%; margin-left: 2%">
 
-  <a href="<%=path %>/userhome.jsp" >首页</a> 
-  <div style="text-align: center;">
-  <br/>
-  <font size="60px">iCloud搜索结果</font><br/><br/>
-    
+ <div>
+     <a href="<%=path %>/user/logout" >log out</a> &nbsp;
+     <a href="<%=path %>/home.jsp" >首页</a> &nbsp;
+ </div>
+ <div style="font-size: 24px ; text-align: center">欢迎你登陆iCloud <div style="font-size: 20px; color: green;font-style: oblique; float:inherit; ">${username}</div></div>
+ <hr  size="20"  color="blue"><br/>
+ 
+ <div>
+   <form action="<%=path %>/upload" method="post" enctype="multipart/form-data">
+        <input type="submit" onclick="return checkfile()" value="上传文件" style="background: white;"/>
+    	<input type="file" onchange="checkfile()" id="fileupload" name="file" onpropertychange="getFileSize(this.value)"/><br/>
+    	<input type="hidden" name="username" value="${username}" /><br/>
+        <img id="tempimg" dynsrc="" src="" style="display:none" />  
+    	${message}
+  </form>
+ </div> 
+ <hr style="color:red; size:2"/><br/>
+ 
+  <div  style="text-align: center;">
     <table class="table table-striped">
     <thead>
     	<tr >
     		<td>文件名</td>
     		<td>文件大小</td>
-    		<td>创建日期</td>
+    		<td>上传日期</td>
     		<td>下载文件</td>
+    		<td>是否共享</td>
+    		<td>操作</td>
     	</tr>
     </thead>	
     <tbody>
@@ -36,11 +52,29 @@
 	    		<td>
 	    			<a href="">下载</a>
 	    		</td>
+	    		<td>
+	    			<form>
+	    		      <select  id="${c.id}" onchange="gochange(${pagebean.currentpage},${c.id})" >
+	    		         <c:if test="${c.canshare==0 }">
+    					         <option value="0">私有</option> 
+    					         <option value="1" >共享</option> 
+    					 </c:if>
+	    		         <c:if test="${c.canshare==1 }">
+   						         <option value="1" selected="selected">共享</option>
+    					         <option value="0" >私有</option> 
+ 					     </c:if>
+ 					  </select>
+ 			    	</form>
+ 			    </td>
+	    		<td>
+	    		<a href="javascript:void(0)" onclick="godelete(${pagebean.currentpage},${c.id})">删除文件</a>
+	    		</td>
     		</tr>
     	</c:forEach>  
     </tbody>	 	
     </table>
-    <br/>
+ </div>
+ <div>
     <div class="pagination" style="float:left">
 	              共[${pagebean.totalrecord}]条记录,
 	             每页 <input type="text" id = "pagesize" value="${pagebean.pagesize }" onchange="gotopage(${pagebean.currentpage})" style="width: 25px;" maxlength="5">条
@@ -70,10 +104,7 @@
 		  </ul>
 		</nav>
     </div>
-	
-    <input type="hidden" id="searchcontent" value="${searchcontent}">
-    </div>
-
+ </div>
  
   <script type="text/javascript">
       function gotopage(currentpage){
@@ -90,10 +121,6 @@
     	  
     	  
     	  window.location.href = '/springMVC/file/searchFileWithPage?currentpage='+currentpage+'&pagesize='+ pagesize+'&searchcontent='+searchcontent;
-/*     	  $.ajax({
-    		  "url":'/springMVC/file/searchFileWithPage?currentpage='+currentpage+'&pagesize='+ pagesize+'&searchcontent='+searchcontent
-    	  }); */
-      }
   
   </script>
   

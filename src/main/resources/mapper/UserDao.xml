@@ -9,6 +9,11 @@
     <select id="getUserByUsername" parameterType="java.lang.String" resultType="User" >
        SELECT * FROM user WHERE username = #{username}
     </select>
+
+        <!-- 通过username得到Authority  -->
+    <select id="getAuthorityList" parameterType="java.lang.String" resultType="java.lang.String" >
+       SELECT authority FROM authorities WHERE username = #{username}
+    </select>
     
      <!-- 注册一个新用户 -->
     <insert id="createUser" parameterType="User">

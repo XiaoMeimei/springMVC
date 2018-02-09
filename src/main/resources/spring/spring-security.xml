@@ -22,7 +22,7 @@
 		<security:form-login
 				login-page="/user/login" 
 				authentication-failure-url="/user/login?error=true" 
-				default-target-url="/main/common"/>
+				default-target-url="/file/userFiles"/>
 			
 		<security:logout 
 				invalidate-session="true" 
@@ -33,8 +33,7 @@
 	
 	<!-- 指定一个自定义的authentication-manager :customUserDetailsService -->
 	<security:authentication-manager>
-	 	<security:authentication-provider>
-	        <security:jdbc-user-service data-source-ref="dataSource"  users-by-username-query="select username, password, enabled from user where username = ?" />
+	 	<security:authentication-provider user-service-ref="userDetailsService">
  	        <security:password-encoder ref="passwordEncoder"/>
 	    </security:authentication-provider>
 	</security:authentication-manager>
@@ -42,6 +41,7 @@
 	<!-- 对密码进行MD5编码 -->
 	<bean class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" id="passwordEncoder"/>
 
+	<bean id="userDetailsService" class="com.ivy.service.impl.UserDetailsServiceImpl" />  
 	<!-- 
 		通过 customUserDetailsService,Spring会自动的用户的访问级别.
 		也可以理解成:以后我们和数据库操作就是通过customUserDetailsService来进行关联.

@@ -27,4 +27,5 @@ public class UserDaoTest extends BaseTest{
 		userDao.createUser(user);
 	}
 
+
 }

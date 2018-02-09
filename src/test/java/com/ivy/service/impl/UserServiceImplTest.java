@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ivy.BaseTest;
 import com.ivy.entity.User;
+import com.ivy.entity.UserInfo;
 import com.ivy.service.UserService;
 
 import junit.framework.Assert;
@@ -38,7 +39,7 @@ public class UserServiceImplTest extends BaseTest{
 		Assert.assertTrue(isCreateSuccessful);
 	}
 	
-	@Test
+/*	@Test
 	public void testCheckUser() throws Exception {
 		
 		String userName = userService.checkUser(user);
@@ -51,5 +52,5 @@ public class UserServiceImplTest extends BaseTest{
 		
 		boolean isExist = userService.findUser(user.getUsername());
 		Assert.assertTrue(isExist);
-	}
+	}*/
 }

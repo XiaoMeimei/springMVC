@@ -14,4 +14,33 @@
     <select id="count" parameterType="pageBean" resultType="java.lang.Integer">
        SELECT COUNT(id) totalrecord FROM file WHERE canshare=1 AND filename LIKE '%${searchcontent}%'      
     </select> 
+    
+         <!-- 分页查找某个用户所有的文件  -->
+    <select id="getUserFiles" resultType="File" >
+       SELECT * FROM file WHERE filepath=#{filepath} LIMIT #{startindex},#{pagesize}   
+    </select>
+    
+    <!-- 统计一个用户一共多少文件 -->
+    <select id="countUserFiles" resultType="java.lang.Integer">
+       SELECT COUNT(id) totalrecord FROM file WHERE filepath=#{filepath}     
+    </select>
+    
+<!--     根据文件id查找文件路径
+    <select id="findFilepathById" parameterType="int" resultType="java.lang.String">
+       SELECT file.filepath FROM file WHERE id=#{value}
+    </select>
+    
+     根据文件id查找文件名
+    <select id="findFilenameById" parameterType="int" resultType="java.lang.String">
+       SELECT file.filename FROM file WHERE id=#{value}
+    </select>
+    
+    把用户上传的文件信息写入数据库
+    <insert id="insertFile" parameterType="File" >
+       <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+			SELECT LAST_INSERT_ID()
+	   </selectKey> 
+       INSERT INTO icloud.file (filename,filepath,filesize,createtime,canshare) 
+       VALUES(#{filename},#{filepath},#{filesize},#{createtime},#{canshare})
+    </insert> -->
  </mapper>
