@@ -7,26 +7,26 @@
 <%String path= request.getContextPath();%>
 <link href="<%=path %>/css/bootstrap.min.css" rel="stylesheet" />
 <link href="<%=path %>/js/bootstrap.min.js" rel="stylesheet" />
-<script src="<%=path %>/jquery/jquery/jquery-3.3.1.min.js"></script>
+<script src="<%=path %>/jquery/jquery-3.3.1.min.js"></script>
 
 <title>iCloud搜索结果</title>
 </head>
 <body style="width: 95%; margin-left: 2%">
 
  <div>
-     <a href="<%=path %>/user/logout" >log out</a> &nbsp;
      <a href="<%=path %>/home.jsp" >首页</a> &nbsp;
+     <a href="<%=path %>/user/logout" >退出</a> &nbsp;
  </div>
  <div style="font-size: 24px ; text-align: center">欢迎你登陆iCloud <div style="font-size: 20px; color: green;font-style: oblique; float:inherit; ">${username}</div></div>
  <hr  size="20"  color="blue"><br/>
  
  <div>
-   <form action="<%=path %>/upload" method="post" enctype="multipart/form-data">
+   <form action="<%=path %>/uploadFile" method="post" enctype="multipart/form-data" id="uploadForm">
+   		<div>${message}</div>
         <input type="submit" onclick="return checkfile()" value="上传文件" style="background: white;"/>
-    	<input type="file" onchange="checkfile()" id="fileupload" name="file" onpropertychange="getFileSize(this.value)"/><br/>
+    	<input type="file" onchange="checkFile()" id="fileupload" name="multilpartFile" onpropertychange="getFileSize(this.value)" style="display:inline"/>
     	<input type="hidden" name="username" value="${username}" /><br/>
         <img id="tempimg" dynsrc="" src="" style="display:none" />  
-    	${message}
   </form>
  </div> 
  <hr style="color:red; size:2"/><br/>
@@ -47,14 +47,14 @@
     	<c:forEach var="c" items="${pagebean.list}" varStatus="stat">
     		<tr>
 	    		<td>${c.filename }</td>
-	    		<td>${c.filesize }</td>
+	    		<td>${c.filesize }kb</td>
 	    		<td>${c.createtime }</td>
 	    		<td>
 	    			<a href="">下载</a>
 	    		</td>
 	    		<td>
 	    			<form>
-	    		      <select  id="${c.id}" onchange="gochange(${pagebean.currentpage},${c.id})" >
+	    		      <select  id="${c.id}" onchange="gochange(${c.id})" >
 	    		         <c:if test="${c.canshare==0 }">
     					         <option value="0">私有</option> 
     					         <option value="1" >共享</option> 
@@ -107,10 +107,26 @@
  </div>
  
   <script type="text/javascript">
+  
       function gotopage(currentpage){
     	  
     	  var pagesize = document.getElementById("pagesize").value;
-    	  var searchcontent = document.getElementById("searchcontent").value;
+    	  if(pagesize > 10 || pagesize >= ${pagebean.totalrecord - pagebean.pagesize * ( pagebean.currentpage - 1 )}){
+    		  pagesize = Math.min(pagesize,${pagebean.totalrecord});
+    		  currentpage = 1 ;
+    	  }else if(pagesize < 1){
+    		  pagesize = 1;
+    	  }
+    	  
+    /* 	  $.ajax({
+		 		 "url":'/springMVC/file/userFiles?currentpage='+currentpage+'&pagesize='+ pagesize
+	  	   }).success; */
+    	  window.location.href = '/springMVC/file/userFiles?currentpage='+currentpage+'&pagesize='+ pagesize;
+      }
+      
+      
+      function godelete(currentpage,fileid){
+    	  var pagesize = document.getElementById("pagesize").value;
     	  
     	  if(pagesize > 10 || pagesize >= ${pagebean.totalrecord - pagebean.pagesize * ( pagebean.currentpage - 1 )}){
     		  pagesize = Math.min(pagesize,${pagebean.totalrecord});
@@ -119,8 +135,88 @@
     		  pagesize = 1;
     	  }
     	  
+    	  var r=confirm("确认删除文件？");
+    	  if(r==true){
+        	  window.location.href = '/springMVC/file/deleteFileByID?currentpage='+currentpage+'&pagesize='+ pagesize+'&id='+fileid;
+    	  }else{
+    		  return false;
+    	  }
+      }
+      
+      
+        var vipmaxsize = 50*1024*1024 ;
+        var normalmaxsize = 20*1024*1024 ;
+        var viperrMsg = "VIP用户上传的附件文件不能超过50M！！！";
+        var normalerrMsg = "普通用户上传的附件文件不能超过20M！！！";
+        var tipMsg = "建议使用chrome firefox ie等浏览器";  
+        var  browserCfg = {};
+        //下面一段鉴别使用者的浏览器
+        var ua = window.navigator.userAgent;
+        if (ua.indexOf("MSIE")>=1){
+            browserCfg.ie = true;
+        }else if(ua.indexOf("Firefox")>=1){  
+            browserCfg.firefox = true;  
+        }else if(ua.indexOf("Chrome")>=1){  
+            browserCfg.chrome = true;  
+        }  
+        function checkfile(){  
+            try{  
+                var obj_file = document.getElementById("fileupload"); 
+                var isvip = ${isvip};
+                if(obj_file.value==""){  
+                    alert("请先选择上传文件");  
+                    return false;  
+               } 
+                var filesize = 0;  
+                if(browserCfg.firefox || browserCfg.chrome ){  
+                    filesize = obj_file.files[0].size;  //chrome等浏览器支持这个方法拿到文件大小
+                }else if(browserCfg.ie){  
+                    var obj_img = document.getElementById('tempimg');  
+                    obj_img.dynsrc=obj_file.value;  
+                    filesize = obj_img.fileSize;  
+                }else{  
+                    alert(tipMsg);  
+                return false;  
+                }  
+                if(filesize==-1){  
+                    alert(tipMsg);  
+                    return false;  
+                }else if(isvip==1 && filesize>vipmaxsize){  
+                    alert(viperrMsg);  
+                    return false;  
+                }else if(isvip==0 && filesize>normalmaxsize){
+                    alert(normalerrMsg);  
+                    return false;  
+                }else{  
+                    return true;  
+                }  
+            }catch(e){  
+                alert(e); 
+                return false; 
+            } 
+           }
+      
+      function gochange(fileid){
     	  
-    	  window.location.href = '/springMVC/file/searchFileWithPage?currentpage='+currentpage+'&pagesize='+ pagesize+'&searchcontent='+searchcontent;
+    	  var canshare = document.getElementById(fileid).value;
+    	  var r=confirm("如果设置共享，您的文件将可以被其他人搜索到");
+    	  if (r==true){
+    	 	  $.ajax({
+        		  url:"/springMVC/file/changeFileStatus",
+        		  data:{
+        			  "id":fileid,
+        			  "canshare":canshare
+        		  }
+        		  
+        	  })
+    	  }else{
+    		  location.reload();
+    	  }
+    	  
+      }
+      
+      
+      
   
   </script>
   

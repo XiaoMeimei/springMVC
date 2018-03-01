@@ -6,7 +6,7 @@
 <mapper namespace="com.ivy.dao.FileDao" >
  
     <!-- 分页查找所有和搜索文字匹配的文件  -->
-    <select id="getAllFilesWithPage" parameterType="pageBean" resultType="File" >
+    <select id="getAllFilesWithPage" parameterType="pageBean" resultType="UploadFile" >
        SELECT * FROM file WHERE canshare=1 AND filename LIKE '%${searchcontent}%' LIMIT #{startindex},#{pagesize}   
     </select>
     
@@ -16,7 +16,7 @@
     </select> 
     
          <!-- 分页查找某个用户所有的文件  -->
-    <select id="getUserFiles" resultType="File" >
+    <select id="getUserFiles" resultType="UploadFile" >
        SELECT * FROM file WHERE filepath=#{filepath} LIMIT #{startindex},#{pagesize}   
     </select>
     
@@ -33,14 +33,24 @@
      根据文件id查找文件名
     <select id="findFilenameById" parameterType="int" resultType="java.lang.String">
        SELECT file.filename FROM file WHERE id=#{value}
-    </select>
+    </select>-->
     
-    把用户上传的文件信息写入数据库
-    <insert id="insertFile" parameterType="File" >
+   <!-- 把用户上传的文件信息写入数据库 --> 
+    <insert id="insertFile" parameterType="UploadFile" >
        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
 			SELECT LAST_INSERT_ID()
 	   </selectKey> 
        INSERT INTO icloud.file (filename,filepath,filesize,createtime,canshare) 
        VALUES(#{filename},#{filepath},#{filesize},#{createtime},#{canshare})
-    </insert> -->
+    </insert> 
+    
+        <!-- 根据文件id删除文件记录 -->
+    <delete id="deleteFileById" parameterType="int">
+        DELETE FROM FILE WHERE id=#{value}
+    </delete>
+    
+        <!-- 根据文件id更新文件是否共享的标记 -->
+    <update id="updateFileById">
+        UPDATE FILE SET canshare=#{canshare} WHERE id=#{id}
+    </update>
  </mapper>

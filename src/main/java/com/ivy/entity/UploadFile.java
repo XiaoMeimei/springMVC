@@ -5,8 +5,8 @@ import java.util.Date;
 
 import org.springframework.stereotype.Component;
 
-@Component
-public class File implements Serializable{
+@Component("file")
+public class UploadFile implements Serializable{
 	
 	private int id;
 	private String filename;

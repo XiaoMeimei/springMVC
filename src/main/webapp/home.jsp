@@ -4,11 +4,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<%String path= request.getContextPath();%>
 <title>iCloud云网盘</title>
 </head>
 <body>
 <div>
-	<a href="/springMVC/user/login">log in</a>
+	<a href="<%=path %>/file/userFiles" >我的主页</a> &nbsp;
+    <a href="<%=path %>/user/login" >登录</a> &nbsp;
 </div>
 <center>
 

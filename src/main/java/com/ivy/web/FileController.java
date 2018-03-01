@@ -15,8 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.ivy.entity.File;
+import com.ivy.entity.UploadFile;
 import com.ivy.entity.PageBean;
+import com.ivy.entity.UserInfo;
 import com.ivy.exception.NoNumberException;
 import com.ivy.service.FileService;
 import com.ivy.util.PropertiesUtil;
@@ -33,16 +34,16 @@ public class FileController {
 	
 	@RequestMapping(value = "/searchFileWithPage", method = RequestMethod.GET)
 	public String searchFileWithPage(@RequestParam(value = "searchcontent") String searchcontent, 
-									 @RequestParam(value = "currentpage", defaultValue="0", required=false) int currentpage,
+									 @RequestParam(value = "currentpage", defaultValue="1", required=false) int currentpage,
 									 @RequestParam(value = "pagesize", defaultValue="5", required=false) int pagesize,
 									 Model model) {
 //		this.pageSize = getPageSize();
-		List<File> fileList = new ArrayList<File>();
+		List<UploadFile> fileList = new ArrayList<UploadFile>();
 		try {
 			searchcontent = new String(searchcontent.getBytes("iso8859-1"),"utf-8");
 			if("".equals(searchcontent) || searchcontent==null){
 				model.addAttribute("message", "There are no match file!");
-				return "userhome";
+				return "home";
 			}
 			pageBean.setCurrentpage(currentpage);
 			pageBean.setPagesize(pagesize);
@@ -68,20 +69,23 @@ public class FileController {
 	
 	@RequestMapping(value = "/userFiles", method = RequestMethod.GET)
 	public String userHome(HttpServletRequest request, HttpServletResponse response,
-						   @RequestParam(value = "currentpage", defaultValue="0", required=false) int currentpage,
+						   @RequestParam(value = "currentpage", defaultValue="1", required=false) int currentpage,
 						   @RequestParam(value = "pagesize", defaultValue="5", required=false) int pagesize,
 						   Model model) {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		 Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		 
+		UserInfo userInfo = (UserInfo)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Integer isvip = userInfo.getIsvip();
 		request.getSession().setAttribute("username", username);
+		request.getSession().setAttribute("isvip", isvip);
+		System.out.println("vip==="+isvip);
 		try {
 			pageBean.setCurrentpage(currentpage);
 			pageBean.setPagesize(pagesize);
-			List<File> fileList = fileService.searchUserFile(username, currentpage, pagesize);
+			List<UploadFile> fileList = fileService.searchUserFile(username, pageBean.getStartindex(), pagesize);
 			pageBean.setList(fileList);
 			pageBean.setTotalrecord(fileService.countUserFiles(username));
 			model.addAttribute("pagebean", pageBean);
+			return "userhome";
 		} catch (NoNumberException e) {
 			model.addAttribute("message", e.getMessage());
 			return "userhome";
@@ -89,12 +93,50 @@ public class FileController {
 			model.addAttribute("message", "There are errors to search files!");
 			return "userhome";
 		}
-		return "userhome";
+		
+	}
+	
+	@RequestMapping(value = "/deleteFileByID", method = RequestMethod.GET)
+	public String deleteFileByID(HttpServletRequest request,
+						   @RequestParam(value = "currentpage", defaultValue="1", required=false) int currentpage,
+						   @RequestParam(value = "pagesize", defaultValue="5", required=false) int pagesize,
+						   @RequestParam(value = "id") int id,
+						   Model model) {
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		request.getSession().setAttribute("username", username);
+		try {
+			fileService.deleteFileById(id);
+			pageBean.setCurrentpage(currentpage);
+			pageBean.setPagesize(pagesize);
+			List<UploadFile> fileList = fileService.searchUserFile(username, pageBean.getStartindex(), pagesize);
+			pageBean.setList(fileList);
+			pageBean.setTotalrecord(fileService.countUserFiles(username));
+			model.addAttribute("pagebean", pageBean);
+			return "userhome";
+		} catch (NoNumberException e) {
+			model.addAttribute("message", e.getMessage());
+			return "userhome";
+		} catch (Exception e) {
+			model.addAttribute("message", "There are errors to search files!");
+			return "userhome";
+		}
+		
+	}
+	
+	@RequestMapping(value = "/changeFileStatus", method = RequestMethod.GET)
+	public void changeFileStatus(@RequestParam(value = "id") int id, @RequestParam(value = "canshare") int canshare) {
+
+		try {
+			fileService.updateFileById(id, canshare);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	
 	public int getPageSize() {
 		PropertiesUtil.readProperties("icloud.properties");
-		return Integer.parseInt(PropertiesUtil.getProperty("pageSize"));
+		return Integer.parseInt(PropertiesUtil.getProperty("chooseDealerTxt"));
 	}
 }

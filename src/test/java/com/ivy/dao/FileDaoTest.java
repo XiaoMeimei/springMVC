@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ivy.BaseTest;
-import com.ivy.entity.File;
+import com.ivy.entity.UploadFile;
 import com.ivy.entity.PageBean;
 
 import junit.framework.Assert;
@@ -19,7 +19,7 @@ public class FileDaoTest extends BaseTest{
 	
 	private PageBean pageBean = new PageBean();
 	
-	public File file;
+	public UploadFile file;
 	String pageContent = "java";
 	int startIndex = 0;
 	int pageSize = 5;
@@ -33,7 +33,7 @@ public class FileDaoTest extends BaseTest{
 
 	@Test
 	public void testGetAllFilesWithPager() throws Exception {
-		List<File> fileList = fileDao.getAllFilesWithPage(pageBean);
+		List<UploadFile> fileList = fileDao.getAllFilesWithPage(pageBean);
 		Assert.assertTrue(fileList != null);
 	}
 	

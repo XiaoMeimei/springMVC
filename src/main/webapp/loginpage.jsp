@@ -1,4 +1,4 @@
-<!doctype html>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
@@ -16,9 +16,7 @@
 
 </head>
 <body>
-	<a href="/springMVC/registerpage.jsp" style="margin-left:10px">REGISTER</a>
-	<a href="/springMVC/user/login" style="margin-left:20px">LOGIN OUT</a>
-	
+	<a href="/springMVC/registerpage.jsp" style="margin-left:10px">注册</a>
 	
 <div class="container">
 	  <div id="login-error">${error}</div>

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ivy.entity.User;
+import com.ivy.entity.UserInfo;
 import com.ivy.service.UserService;
 
 @Controller
@@ -32,13 +33,14 @@ public class UserController {
 	public String getLoginPage(@RequestParam(value = "error", required = false) boolean error,ModelMap model,HttpServletRequest request, HttpServletResponse response) {
 
 		logger.debug("Received request to show login page");
-
+		System.out.println(111);
 		if (error == true) {
 			// Assign an error message
 			model.put("error","You have entered an invalid username or password!");
 		} else {
 			request.getSession().setAttribute("username", SecurityContextHolder.getContext().getAuthentication().getName());
 			model.put("error", "");
+			System.out.println(222);
 		}
 		return "loginpage";
 	}

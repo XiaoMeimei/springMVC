@@ -7,13 +7,14 @@
 <%String path= request.getContextPath();%>
 <link href="<%=path %>/css/bootstrap.min.css" rel="stylesheet" />
 <link href="<%=path %>/js/bootstrap.min.js" rel="stylesheet" />
-<script src="<%=path %>/jquery/jquery/jquery-3.3.1.min.js"></script>
+<script src="<%=path %>/jquery/jquery-3.3.1.min.js"></script>
 
 <title>iCloud搜索结果</title>
 </head>
 <body style="width: 95%; margin-left: 2%">
 
-  <a href="<%=path %>/userhome.jsp" >首页</a> 
+  <a href="<%=path %>/file/userFiles" >我的主页</a> &nbsp;
+  <a href="<%=path %>/user/login" >登录</a> &nbsp;
   <div style="text-align: center;">
   <br/>
   <font size="60px">iCloud搜索结果</font><br/><br/>
@@ -31,7 +32,7 @@
     	<c:forEach var="c" items="${pagebean.list}" varStatus="stat">
     		<tr>
 	    		<td>${c.filename }</td>
-	    		<td>${c.filesize }</td>
+	    		<td>${c.filesize }kb</td>
 	    		<td>${c.createtime }</td>
 	    		<td>
 	    			<a href="">下载</a>
